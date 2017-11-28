@@ -55,6 +55,7 @@ public class RequestPatternBuilderTest {
             ImmutableMap.of("cookie", WireMock.equalTo("yum")),
             new BasicCredentials("user", "pass"),
             ImmutableList.<ContentPattern<?>>of(WireMock.equalTo("BODY")),
+            null,
             null
         );
 
