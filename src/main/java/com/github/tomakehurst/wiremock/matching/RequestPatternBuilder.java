@@ -36,6 +36,7 @@ public class RequestPatternBuilder {
     private List<ContentPattern<?>> bodyPatterns = newArrayList();
     private Map<String, StringValuePattern> cookies = newLinkedHashMap();
     private BasicCredentials basicCredentials;
+    private Map<String, MultipartValuePattern> multiparts = newLinkedHashMap();
 
     private ValueMatcher<Request> customMatcher;
 
@@ -146,6 +147,13 @@ public class RequestPatternBuilder {
         return this;
     }
 
+    public RequestPatternBuilder withMultipartRequestBody(MultipartValuePatternBuilder multiPatternBuilder) { //String partName, Map<String, StringValuePattern> multipartHeaders, ContentPattern<?> bodyPattern) {
+        if (multiPatternBuilder != null) {
+            multiparts.put(multiPatternBuilder.getName(), multiPatternBuilder.build());
+        }
+        return this;
+    }
+
     public RequestPattern build() {
         return customMatcher != null ?
             new RequestPattern(customMatcher) :
@@ -159,7 +167,8 @@ public class RequestPatternBuilder {
                     cookies.isEmpty() ? null : cookies,
                     basicCredentials,
                     bodyPatterns.isEmpty() ? null : bodyPatterns,
-                    null
+                    null,
+                    multiparts
                 );
     }
 }
